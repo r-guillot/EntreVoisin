@@ -1,8 +1,15 @@
 package com.openclassrooms.entrevoisins.service;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -42,7 +49,14 @@ public class NeighboursDetails extends AppCompatActivity {
         setContentView(R.layout.activity_neighbours_details);
         ButterKnife.bind(this);
 
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 
+        // Toolbar Transparent
+        toolbar.setBackgroundColor(Color.TRANSPARENT);
+
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         Intent intent = getIntent();
         String name = intent.getStringExtra(EXTRA_NAME);
@@ -58,5 +72,7 @@ public class NeighboursDetails extends AppCompatActivity {
         aboutMe.setText(about_Me);
         facebook.setText("www.facebook.fr/"+name);
         Picasso.get().load(avatarUrl).into(imageDetails); //use picasso to load image url in the imageview.
+
     }
+
 }
