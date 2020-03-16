@@ -15,6 +15,7 @@ import com.openclassrooms.entrevoisins.R;
 import com.openclassrooms.entrevoisins.di.DI;
 import com.openclassrooms.entrevoisins.events.DeleteNeighbourEvent;
 import com.openclassrooms.entrevoisins.model.Neighbour;
+import com.openclassrooms.entrevoisins.service.DummyNeighbourGenerator;
 import com.openclassrooms.entrevoisins.service.NeighbourApiService;
 import com.openclassrooms.entrevoisins.service.NeighboursDetails;
 
@@ -32,20 +33,21 @@ public class NeighbourFragment extends Fragment implements MyNeighbourRecyclerVi
 
     private MyNeighbourRecyclerViewAdapter mAdapter;
 
-    public static final String EXTRA_NAME = "name";
-    public static final String EXTRA_AVATAR = "avatar";
-    public static final String EXTRA_ADDRESS = "address";
-    public static final String EXTRA_PHONENUMBER = "phonenumber";
-    public static final String EXTRA_RESUME = "resume";
-
     /**
      * Create and return a new instance
      * @return @{@link NeighbourFragment}
      */
     public static NeighbourFragment newInstance() {
         NeighbourFragment fragment = new NeighbourFragment();
-        return fragment;
-    }
+
+        return fragment;}
+
+
+//    public static NeighbourFragment favoriteNeighbours () {
+//        NeighbourFragment.newInstance().favoriteList();
+//        return favoriteNeighbours();
+//    }
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -72,6 +74,11 @@ public class NeighbourFragment extends Fragment implements MyNeighbourRecyclerVi
         mNeighbours = mApiService.getNeighbours();
         mRecyclerView.setAdapter(new MyNeighbourRecyclerViewAdapter(mNeighbours, this)); //call listener
     }
+
+//    public void favoriteList () {
+//        this.mNeighbours.clear();
+//        mRecyclerView.setAdapter(new MyNeighbourRecyclerViewAdapter(mNeighbours, this)); //call listener
+//    }
 
     @Override
     public void onResume() {
@@ -101,18 +108,11 @@ public class NeighbourFragment extends Fragment implements MyNeighbourRecyclerVi
         initList();
     }
 
+
     //start Neighbours details activity with data from items in recyclerView
     public void onItemClick(int position) {
         Intent detailIntent = new Intent(getActivity(),NeighboursDetails.class);
-
-        Neighbour clickedItem = mNeighbours.get(position);
-
-        detailIntent.putExtra(EXTRA_NAME, clickedItem.getName());
-        detailIntent.putExtra(EXTRA_AVATAR, clickedItem.getAvatarUrl());
-        detailIntent.putExtra(EXTRA_ADDRESS,clickedItem.getAddress());
-        detailIntent.putExtra(EXTRA_PHONENUMBER,clickedItem.getPhoneNumber());
-        detailIntent.putExtra(EXTRA_RESUME, clickedItem.getAboutMe());
-
+        detailIntent.putExtra("Neighbour item", mNeighbours.get(position));
         startActivity(detailIntent);
 
     }

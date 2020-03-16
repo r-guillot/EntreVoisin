@@ -1,11 +1,16 @@
 package com.openclassrooms.entrevoisins.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+import android.util.Size;
+
+import java.io.Serializable;
 import java.util.Objects;
 
 /**
  * Model object representing a Neighbour
  */
-public class Neighbour {
+public class Neighbour implements Parcelable {
 
     /** Identifier */
     private long id;
@@ -25,6 +30,8 @@ public class Neighbour {
     /** About me */
     private String aboutMe;
 
+    private boolean favorite;
+
     /**
      * Constructor
      * @param id
@@ -32,13 +39,14 @@ public class Neighbour {
      * @param avatarUrl
      */
     public Neighbour(long id, String name, String avatarUrl, String address,
-                     String phoneNumber, String aboutMe) {
+                     String phoneNumber, String aboutMe, boolean favorite) {
         this.id = id;
         this.name = name;
         this.avatarUrl = avatarUrl;
         this.address = address;
         this.phoneNumber = phoneNumber;
         this.aboutMe = aboutMe;
+        this.favorite = favorite;
     }
 
     public long getId() {
@@ -89,6 +97,14 @@ public class Neighbour {
         this.aboutMe = aboutMe;
     }
 
+    public boolean getFavorite() {
+        return favorite;
+    }
+
+    public void setFavorite(boolean favorite) {
+        this.favorite = favorite;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -100,5 +116,42 @@ public class Neighbour {
     @Override
     public int hashCode() {
         return Objects.hash(id);
+    }
+
+    public static final Creator<Neighbour> CREATOR = new Creator<Neighbour>() {
+        @Override
+        public Neighbour createFromParcel(Parcel in) {
+            return new Neighbour(in);
+        }
+        @Override
+        public Neighbour[] newArray(int size) {
+            return new Neighbour[size];
+        }
+    };
+
+    public Neighbour(Parcel in) {
+        this.id = in.readLong();
+        this.name = in.readString();
+        this.avatarUrl = in.readString();
+        this.address = in.readString();
+        this.phoneNumber = in.readString();
+        this.aboutMe = in.readString();
+        this.favorite = in.readInt() == 0;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeLong(this.id);
+        parcel.writeString(this.name);
+        parcel.writeString(this.avatarUrl);
+        parcel.writeString(this.address);
+        parcel.writeString(this.phoneNumber);
+        parcel.writeString(this.aboutMe);
+        parcel.writeInt(favorite ? 1 : 0);
     }
 }
