@@ -18,8 +18,10 @@ import android.widget.TextView;
 
 import com.openclassrooms.entrevoisins.R;
 import com.openclassrooms.entrevoisins.model.Neighbour;
+import com.openclassrooms.entrevoisins.ui.neighbour_list.NeighbourFragment;
 import com.squareup.picasso.Picasso;
 
+import java.security.Key;
 import java.util.List;
 
 import butterknife.BindView;

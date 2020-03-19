@@ -37,10 +37,17 @@ public class NeighbourFragment extends Fragment implements MyNeighbourRecyclerVi
      * Create and return a new instance
      * @return @{@link NeighbourFragment}
      */
-    public static NeighbourFragment newInstance() {
-        NeighbourFragment fragment = new NeighbourFragment();
+//    public static NeighbourFragment newInstance() {
+//        NeighbourFragment fragment = new NeighbourFragment();
+//        return fragment;}
 
-        return fragment;}
+    public static NeighbourFragment newInstance(boolean favorite) {
+        Bundle args = new Bundle();
+        args.getBoolean("favorite", false);
+        NeighbourFragment fragment = new NeighbourFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
 
 
 //    public static NeighbourFragment favoriteNeighbours () {
