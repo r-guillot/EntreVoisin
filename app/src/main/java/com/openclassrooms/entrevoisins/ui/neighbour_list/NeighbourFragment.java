@@ -32,6 +32,7 @@ public class NeighbourFragment extends Fragment implements MyNeighbourRecyclerVi
     private RecyclerView mRecyclerView;
 
     private MyNeighbourRecyclerViewAdapter mAdapter;
+    private Boolean isFavoriteList;
 
     /**
      * Create and return a new instance
@@ -42,19 +43,14 @@ public class NeighbourFragment extends Fragment implements MyNeighbourRecyclerVi
 //        return fragment;}
 
     public static NeighbourFragment newInstance(boolean favorite) {
-        Bundle args = new Bundle();
-        args.getBoolean("favorite", false);
         NeighbourFragment fragment = new NeighbourFragment();
-        fragment.setArguments(args);
+        fragment.setFavoriteList(favorite);
         return fragment;
     }
 
-
-//    public static NeighbourFragment favoriteNeighbours () {
-//        NeighbourFragment.newInstance().favoriteList();
-//        return favoriteNeighbours();
-//    }
-
+    public void setFavoriteList(Boolean favoriteList) {
+        isFavoriteList = favoriteList;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -78,14 +74,15 @@ public class NeighbourFragment extends Fragment implements MyNeighbourRecyclerVi
      * Init the List of neighbours
      */
     private void initList() {
-        mNeighbours = mApiService.getNeighbours();
+        if (isFavoriteList) {
+            mNeighbours = mApiService.getFavoriteNeighbours();
+        }
+        else {
+            mNeighbours = mApiService.getNeighbours();
+        }
         mRecyclerView.setAdapter(new MyNeighbourRecyclerViewAdapter(mNeighbours, this)); //call listener
     }
 
-//    public void favoriteList () {
-//        this.mNeighbours.clear();
-//        mRecyclerView.setAdapter(new MyNeighbourRecyclerViewAdapter(mNeighbours, this)); //call listener
-//    }
 
     @Override
     public void onResume() {
@@ -119,7 +116,7 @@ public class NeighbourFragment extends Fragment implements MyNeighbourRecyclerVi
     //start Neighbours details activity with data from items in recyclerView
     public void onItemClick(int position) {
         Intent detailIntent = new Intent(getActivity(),NeighboursDetails.class);
-        detailIntent.putExtra("Neighbour item", mNeighbours.get(position));
+        detailIntent.putExtra("Neighbour item", position);
         startActivity(detailIntent);
 
     }

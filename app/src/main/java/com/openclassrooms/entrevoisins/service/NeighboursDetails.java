@@ -2,27 +2,18 @@ package com.openclassrooms.entrevoisins.service;
 
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
-import android.os.Build;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.openclassrooms.entrevoisins.R;
 import com.openclassrooms.entrevoisins.model.Neighbour;
-import com.openclassrooms.entrevoisins.ui.neighbour_list.NeighbourFragment;
 import com.squareup.picasso.Picasso;
-
-import java.security.Key;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -47,6 +38,8 @@ public class NeighboursDetails extends AppCompatActivity {
     @BindView(R.id.FAB_detail)
     public FloatingActionButton mFab;
 
+    private Neighbour mNeighbour;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,31 +48,19 @@ public class NeighboursDetails extends AppCompatActivity {
 
         setToolbarAttribute();
 
-        Intent intent = getIntent();
-        Neighbour mNeighbour = intent.getParcelableExtra("Neighbour item");
+        setListeners();
 
-        String name = mNeighbour.getName();
-        String avatarUrl = mNeighbour.getAvatarUrl();
-        String address = mNeighbour.getAddress();
-        String phone_Number = mNeighbour.getPhoneNumber();
-        String about_Me = mNeighbour.getAboutMe();
-        final boolean[] favorite = {mNeighbour.getFavorite()};
+        int position = Integer.parseInt(getIntent().getExtras().get("Neighbour item").toString());
 
-        nameImage.setText(name);
-        nameCard.setText(name);
-        localisation.setText(address);
-        phoneNumber.setText(phone_Number);
-        aboutMe.setText(about_Me);
-        facebook.setText("www.facebook.fr/"+name);
-        Picasso.get().load(avatarUrl).into(imageDetails); //use picasso to load image url in the imageview.
+        mNeighbour = DummyNeighbourGenerator.DUMMY_NEIGHBOURS.get(position);
 
-        mFab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                favorite[0] = true;
-
-            }
-        });
+        nameImage.setText(mNeighbour.getName());
+        nameCard.setText(mNeighbour.getName());
+        localisation.setText(mNeighbour.getAddress());
+        phoneNumber.setText(mNeighbour.getPhoneNumber());
+        aboutMe.setText(mNeighbour.getAboutMe());
+        facebook.setText("www.facebook.fr/"+mNeighbour.getName());
+        Picasso.get().load(mNeighbour.getAvatarUrl()).into(imageDetails); //use picasso to load image url in the imageview.
 
     }
 
@@ -94,4 +75,21 @@ public class NeighboursDetails extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
+    private void setListeners () {
+        mFab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                changeFavoriteState();
+            }
+        });
+    }
+
+    private void changeFavoriteState () {
+        if (!mNeighbour.isfavorite()) {
+            mNeighbour.setIsfavorite(true);
+        }
+        else {
+            mNeighbour.setIsfavorite(false);
+        }
+    }
 }

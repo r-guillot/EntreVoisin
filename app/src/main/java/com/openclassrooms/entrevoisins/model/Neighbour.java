@@ -2,9 +2,7 @@ package com.openclassrooms.entrevoisins.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.util.Size;
 
-import java.io.Serializable;
 import java.util.Objects;
 
 /**
@@ -30,7 +28,7 @@ public class Neighbour implements Parcelable {
     /** About me */
     private String aboutMe;
 
-    private boolean favorite;
+    private boolean isfavorite;
 
     /**
      * Constructor
@@ -39,14 +37,14 @@ public class Neighbour implements Parcelable {
      * @param avatarUrl
      */
     public Neighbour(long id, String name, String avatarUrl, String address,
-                     String phoneNumber, String aboutMe, boolean favorite) {
+                     String phoneNumber, String aboutMe, boolean isfavorite) {
         this.id = id;
         this.name = name;
         this.avatarUrl = avatarUrl;
         this.address = address;
         this.phoneNumber = phoneNumber;
         this.aboutMe = aboutMe;
-        this.favorite = favorite;
+        this.isfavorite = isfavorite;
     }
 
     public long getId() {
@@ -97,12 +95,12 @@ public class Neighbour implements Parcelable {
         this.aboutMe = aboutMe;
     }
 
-    public boolean getFavorite() {
-        return favorite;
+    public boolean isfavorite() {
+        return isfavorite;
     }
 
-    public void setFavorite(boolean favorite) {
-        this.favorite = favorite;
+    public void setIsfavorite(boolean isfavorite) {
+        this.isfavorite = isfavorite;
     }
 
     @Override
@@ -136,7 +134,7 @@ public class Neighbour implements Parcelable {
         this.address = in.readString();
         this.phoneNumber = in.readString();
         this.aboutMe = in.readString();
-        this.favorite = in.readInt() == 0;
+        this.isfavorite = in.readInt() == 0;
     }
 
     @Override
@@ -152,6 +150,6 @@ public class Neighbour implements Parcelable {
         parcel.writeString(this.address);
         parcel.writeString(this.phoneNumber);
         parcel.writeString(this.aboutMe);
-        parcel.writeInt(favorite ? 1 : 0);
+        parcel.writeInt(isfavorite ? 1 : 0);
     }
 }
