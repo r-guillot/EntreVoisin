@@ -30,4 +30,9 @@ public interface NeighbourApiService {
 
     //create new method with favorite neighbours
     List<Neighbour> getFavoriteNeighbours ();
+
+    /**
+     * Add favorite
+     */
+    void isFavorite(Neighbour neighbour);
 }

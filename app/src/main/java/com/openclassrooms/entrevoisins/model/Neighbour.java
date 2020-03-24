@@ -134,7 +134,7 @@ public class Neighbour implements Parcelable {
         this.address = in.readString();
         this.phoneNumber = in.readString();
         this.aboutMe = in.readString();
-        this.isfavorite = in.readInt() == 0;
+        this.isfavorite = in.readInt() != 0;
     }
 
     @Override

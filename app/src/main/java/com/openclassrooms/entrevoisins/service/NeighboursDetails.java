@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.openclassrooms.entrevoisins.R;
+import com.openclassrooms.entrevoisins.di.DI;
 import com.openclassrooms.entrevoisins.model.Neighbour;
 import com.squareup.picasso.Picasso;
 
@@ -39,6 +40,7 @@ public class NeighboursDetails extends AppCompatActivity {
     public FloatingActionButton mFab;
 
     private Neighbour mNeighbour;
+    private NeighbourApiService mApiService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,13 +48,13 @@ public class NeighboursDetails extends AppCompatActivity {
         setContentView(R.layout.activity_neighbours_details);
         ButterKnife.bind(this);
 
+        mApiService = DI.getNeighbourApiService();
+
         setToolbarAttribute();
 
         setListeners();
 
-        int position = Integer.parseInt(getIntent().getExtras().get("Neighbour item").toString());
-
-        mNeighbour = DummyNeighbourGenerator.DUMMY_NEIGHBOURS.get(position);
+        mNeighbour = getIntent().getExtras().getParcelable("Neighbour item");
 
         nameImage.setText(mNeighbour.getName());
         nameCard.setText(mNeighbour.getName());
@@ -62,6 +64,7 @@ public class NeighboursDetails extends AppCompatActivity {
         facebook.setText("www.facebook.fr/"+mNeighbour.getName());
         Picasso.get().load(mNeighbour.getAvatarUrl()).into(imageDetails); //use picasso to load image url in the imageview.
 
+        fabColor();
     }
 
     private void setToolbarAttribute () {
@@ -75,7 +78,7 @@ public class NeighboursDetails extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
-    private void setListeners () {
+    private void setListeners() {
         mFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -84,12 +87,18 @@ public class NeighboursDetails extends AppCompatActivity {
         });
     }
 
-    private void changeFavoriteState () {
+    private void changeFavoriteState() {
+        mApiService.isFavorite(mNeighbour);
+        mNeighbour.setIsfavorite(!mNeighbour.isfavorite());
+        fabColor();
+    }
+
+    private void fabColor() {
         if (!mNeighbour.isfavorite()) {
-            mNeighbour.setIsfavorite(true);
+            mFab.setColorFilter(Color.GRAY);
         }
-        else {
-            mNeighbour.setIsfavorite(false);
+        else if (mNeighbour.isfavorite()) {
+            mFab.setColorFilter(Color.YELLOW);
         }
     }
 }

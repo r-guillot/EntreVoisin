@@ -116,7 +116,7 @@ public class NeighbourFragment extends Fragment implements MyNeighbourRecyclerVi
     //start Neighbours details activity with data from items in recyclerView
     public void onItemClick(int position) {
         Intent detailIntent = new Intent(getActivity(),NeighboursDetails.class);
-        detailIntent.putExtra("Neighbour item", position);
+        detailIntent.putExtra("Neighbour item", mNeighbours.get(position));
         startActivity(detailIntent);
 
     }
