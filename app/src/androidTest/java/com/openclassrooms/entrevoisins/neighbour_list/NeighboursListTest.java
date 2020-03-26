@@ -1,12 +1,18 @@
 
 package com.openclassrooms.entrevoisins.neighbour_list;
 
+import android.app.Instrumentation;
+import android.content.Intent;
 import android.support.test.espresso.contrib.RecyclerViewActions;
 import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
+import android.support.v7.widget.RecyclerView;
+
+import androidx.test.espresso.intent.rule.IntentsTestRule;
 
 import com.openclassrooms.entrevoisins.R;
+import com.openclassrooms.entrevoisins.service.NeighboursDetails;
 import com.openclassrooms.entrevoisins.ui.neighbour_list.ListNeighbourActivity;
 import com.openclassrooms.entrevoisins.utils.DeleteViewAction;
 
@@ -19,8 +25,14 @@ import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.assertThat;
 import static android.support.test.espresso.matcher.ViewMatchers.hasMinimumChildCount;
+import static androidx.test.espresso.intent.Intents.intended;
+import static androidx.test.espresso.intent.matcher.IntentMatchers.toPackage;
 import static com.openclassrooms.entrevoisins.utils.RecyclerViewItemCountAssertion.withItemCount;
 import static org.hamcrest.core.IsNull.notNullValue;
+
+import static android.support.test.espresso.action.ViewActions.click;
+
+
 
 
 
@@ -35,15 +47,25 @@ public class NeighboursListTest {
 
     private ListNeighbourActivity mActivity;
 
+    private String name = "Jack";
+
     @Rule
     public ActivityTestRule<ListNeighbourActivity> mActivityRule =
             new ActivityTestRule(ListNeighbourActivity.class);
+
+    @Rule
+    public IntentsTestRule<NeighboursDetails> intentsTestRule =
+            new IntentsTestRule<>(NeighboursDetails.class);
+
+
 
     @Before
     public void setUp() {
         mActivity = mActivityRule.getActivity();
         assertThat(mActivity, notNullValue());
+//        Intents.init();
     }
+
 
     /**
      * We ensure that our recyclerview is displaying at least on item
@@ -67,5 +89,23 @@ public class NeighboursListTest {
                 .perform(RecyclerViewActions.actionOnItemAtPosition(1, new DeleteViewAction()));
         // Then : the number of element is 11
         onView(ViewMatchers.withId(R.id.list_neighbours)).check(withItemCount(ITEMS_COUNT-1));
+    }
+
+    @Test
+    public void myNeighboursList_onItemClick_openDetail() {
+              //check list is not empty
+        onView(ViewMatchers.withId(R.id.list_neighbours)).check(withItemCount(ITEMS_COUNT));
+        //perform a click on item
+        onView(ViewMatchers.withId(R.id.list_neighbours))
+                .perform(RecyclerViewActions.actionOnItemAtPosition(1,click() ));
+        //check if NeighbourDetails is open
+        intended(toPackage(NeighboursDetails.class.getName()));
+    }
+
+    @Test
+    public void NeighboursDetails_checkName () {
+        onView(ViewMatchers.withId(R.id.list_neighbours)).check(withItemCount(ITEMS_COUNT));
+        onView(ViewMatchers.withId(R.id.list_neighbours)).perform(RecyclerViewActions.actionOnItemAtPosition(1,click()));
+        onView(ViewMatchers.withId(R.id.name_in_image)).equals(name);
     }
 }
