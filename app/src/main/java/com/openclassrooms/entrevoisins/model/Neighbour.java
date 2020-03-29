@@ -37,14 +37,14 @@ public class Neighbour implements Parcelable {
      * @param avatarUrl
      */
     public Neighbour(long id, String name, String avatarUrl, String address,
-                     String phoneNumber, String aboutMe, boolean isfavorite) {
+                     String phoneNumber, String aboutMe, boolean isFavorite) {
         this.id = id;
         this.name = name;
         this.avatarUrl = avatarUrl;
         this.address = address;
         this.phoneNumber = phoneNumber;
         this.aboutMe = aboutMe;
-        this.isfavorite = isfavorite;
+        this.isfavorite = isFavorite;
     }
 
     public long getId() {
@@ -95,11 +95,11 @@ public class Neighbour implements Parcelable {
         this.aboutMe = aboutMe;
     }
 
-    public boolean isfavorite() {
+    public boolean isFavorite() {
         return isfavorite;
     }
 
-    public void setIsfavorite(boolean isfavorite) {
+    public void setIsFavorite(boolean isfavorite) {
         this.isfavorite = isfavorite;
     }
 

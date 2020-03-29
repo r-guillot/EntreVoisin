@@ -15,9 +15,8 @@ import com.openclassrooms.entrevoisins.R;
 import com.openclassrooms.entrevoisins.di.DI;
 import com.openclassrooms.entrevoisins.events.DeleteNeighbourEvent;
 import com.openclassrooms.entrevoisins.model.Neighbour;
-import com.openclassrooms.entrevoisins.service.DummyNeighbourGenerator;
 import com.openclassrooms.entrevoisins.service.NeighbourApiService;
-import com.openclassrooms.entrevoisins.service.NeighboursDetails;
+import com.openclassrooms.entrevoisins.ui.neighbour_detail.NeighboursDetailsActivity;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -38,9 +37,6 @@ public class NeighbourFragment extends Fragment implements MyNeighbourRecyclerVi
      * Create and return a new instance
      * @return @{@link NeighbourFragment}
      */
-//    public static NeighbourFragment newInstance() {
-//        NeighbourFragment fragment = new NeighbourFragment();
-//        return fragment;}
 
     public static NeighbourFragment newInstance(boolean favorite) {
         NeighbourFragment fragment = new NeighbourFragment();
@@ -115,7 +111,7 @@ public class NeighbourFragment extends Fragment implements MyNeighbourRecyclerVi
 
     //start Neighbours details activity with data from items in recyclerView
     public void onItemClick(int position) {
-        Intent detailIntent = new Intent(getActivity(),NeighboursDetails.class);
+        Intent detailIntent = new Intent(getActivity(), NeighboursDetailsActivity.class);
         detailIntent.putExtra("Neighbour item", mNeighbours.get(position));
         startActivity(detailIntent);
 

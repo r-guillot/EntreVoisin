@@ -1,25 +1,24 @@
-package com.openclassrooms.entrevoisins.service;
+package com.openclassrooms.entrevoisins.ui.neighbour_detail;
 
-import android.content.Intent;
 import android.graphics.Color;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.openclassrooms.entrevoisins.R;
 import com.openclassrooms.entrevoisins.di.DI;
 import com.openclassrooms.entrevoisins.model.Neighbour;
-import com.squareup.picasso.Picasso;
+import com.openclassrooms.entrevoisins.service.NeighbourApiService;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class NeighboursDetails extends AppCompatActivity {
+public class NeighboursDetailsActivity extends AppCompatActivity {
 
     @BindView(R.id.image_details)
     public ImageView imageDetails;
@@ -34,10 +33,12 @@ public class NeighboursDetails extends AppCompatActivity {
     @BindView(R.id.about_me_details)
     public TextView aboutMe;
     @BindView(R.id.web_address)
-    public TextView facebook;
+    public TextView facebookTextView;
 
     @BindView(R.id.FAB_detail)
     public FloatingActionButton mFab;
+    @BindView(R.id.toolbar)
+    public Toolbar mToolbar;
 
     private Neighbour mNeighbour;
     private NeighbourApiService mApiService;
@@ -54,6 +55,12 @@ public class NeighboursDetails extends AppCompatActivity {
 
         setListeners();
 
+        setGraphicElement();
+
+        fabColor();
+    }
+
+    public void setGraphicElement () {
         mNeighbour = getIntent().getExtras().getParcelable("Neighbour item");
 
         nameImage.setText(mNeighbour.getName());
@@ -61,19 +68,16 @@ public class NeighboursDetails extends AppCompatActivity {
         localisation.setText(mNeighbour.getAddress());
         phoneNumber.setText(mNeighbour.getPhoneNumber());
         aboutMe.setText(mNeighbour.getAboutMe());
-        facebook.setText("www.facebook.fr/"+mNeighbour.getName());
-        Picasso.get().load(mNeighbour.getAvatarUrl()).into(imageDetails); //use picasso to load image url in the imageview.
-
-        fabColor();
+        facebookTextView.setText("www.facebook.fr/"+mNeighbour.getName());
+        Glide.with(this).load(mNeighbour.getAvatarUrl()).into(imageDetails);
     }
 
     private void setToolbarAttribute () {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 
         // Toolbar Transparent
-        toolbar.setBackgroundColor(Color.TRANSPARENT);
+        mToolbar.setBackgroundColor(Color.TRANSPARENT);
 
-        setSupportActionBar(toolbar);
+        setSupportActionBar(mToolbar);
         getSupportActionBar().setTitle("");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
@@ -89,16 +93,11 @@ public class NeighboursDetails extends AppCompatActivity {
 
     private void changeFavoriteState() {
         mApiService.isFavorite(mNeighbour);
-        mNeighbour.setIsfavorite(!mNeighbour.isfavorite());
+        mNeighbour.setIsFavorite(!mNeighbour.isFavorite());
         fabColor();
     }
 
     private void fabColor() {
-        if (!mNeighbour.isfavorite()) {
-            mFab.setColorFilter(Color.GRAY);
-        }
-        else if (mNeighbour.isfavorite()) {
-            mFab.setColorFilter(Color.YELLOW);
-        }
+        mFab.setColorFilter((mNeighbour.isFavorite()) ? Color.YELLOW : Color.GRAY);
     }
 }

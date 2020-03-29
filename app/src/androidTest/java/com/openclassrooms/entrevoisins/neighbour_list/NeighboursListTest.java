@@ -1,18 +1,15 @@
 
 package com.openclassrooms.entrevoisins.neighbour_list;
 
-import android.app.Instrumentation;
-import android.content.Intent;
 import android.support.test.espresso.contrib.RecyclerViewActions;
 import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
-import android.support.v7.widget.RecyclerView;
 
 import androidx.test.espresso.intent.rule.IntentsTestRule;
 
 import com.openclassrooms.entrevoisins.R;
-import com.openclassrooms.entrevoisins.service.NeighboursDetails;
+import com.openclassrooms.entrevoisins.ui.neighbour_detail.NeighboursDetailsActivity;
 import com.openclassrooms.entrevoisins.ui.neighbour_list.ListNeighbourActivity;
 import com.openclassrooms.entrevoisins.utils.DeleteViewAction;
 
@@ -54,9 +51,8 @@ public class NeighboursListTest {
             new ActivityTestRule(ListNeighbourActivity.class);
 
     @Rule
-    public IntentsTestRule<NeighboursDetails> intentsTestRule =
-            new IntentsTestRule<>(NeighboursDetails.class);
-
+    public IntentsTestRule<NeighboursDetailsActivity> intentsTestRule =
+            new IntentsTestRule<>(NeighboursDetailsActivity.class);
 
 
     @Before
@@ -99,7 +95,7 @@ public class NeighboursListTest {
         onView(ViewMatchers.withId(R.id.list_neighbours))
                 .perform(RecyclerViewActions.actionOnItemAtPosition(1,click() ));
         //check if NeighbourDetails is open
-        intended(toPackage(NeighboursDetails.class.getName()));
+        intended(toPackage(NeighboursDetailsActivity.class.getName()));
     }
 
     @Test

@@ -1,10 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    >
+
+    <android.support.constraint.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background">
+
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
@@ -14,16 +21,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <!--    <android.support.v7.widget.CardView-->
-    <!--        android:id="@+id/card_img"-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        app:layout_constraintTop_toTopOf="parent"-->
-    <!--        tools:layout_editor_absoluteX="15dp">-->
-
-
-    <!--    </android.support.v7.widget.CardView>-->
 
     <ImageView
         android:id="@+id/image_details"
@@ -80,51 +77,37 @@
             android:layout_marginTop="15dp"
             android:textSize="20sp" />
 
-        <ImageView
-            android:id="@+id/localisation_img"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_marginStart="15dp"
-            android:layout_marginTop="50dp"
-            android:src="@drawable/localisation_img" />
-
         <TextView
             android:id="@+id/localisation_txt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="45dp"
-            android:layout_marginTop="50dp" />
-
-        <ImageView
-            android:id="@+id/phone_img"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
             android:layout_marginStart="15dp"
-            android:layout_marginTop="100dp"
-            android:src="@drawable/phone_img" />
+            android:layout_marginTop="50dp"
+            android:drawableStart="@drawable/localisation_img"
+            android:drawablePadding="5dp"
+            />
+
 
         <TextView
             android:id="@+id/phone_number"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="50dp"
-            android:layout_marginTop="100dp" />
-
-        <ImageView
-            android:id="@+id/web_img"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
             android:layout_marginStart="15dp"
-            android:layout_marginTop="150dp"
-            android:src="@drawable/ic_connection" />
+            android:layout_marginTop="100dp"
+            android:drawableStart="@drawable/phone_img"
+            android:drawablePadding="5dp"/>
+
+
 
         <TextView
             android:id="@+id/web_address"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="50dp"
+            android:layout_marginStart="15dp"
             android:layout_marginTop="150dp"
-            android:padding = "5dp"
+            android:drawableStart="@drawable/ic_connection"
+            android:drawablePadding="5dp"
+            android:paddingBottom="5dp"
             />
 
     </android.support.v7.widget.CardView>
@@ -162,3 +145,4 @@
     </android.support.v7.widget.CardView>
 
 </android.support.constraint.ConstraintLayout>
+</ScrollView>
