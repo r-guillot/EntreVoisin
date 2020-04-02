@@ -1,5 +1,7 @@
 package com.openclassrooms.entrevoisins.service;
 
+import android.app.Service;
+
 import com.openclassrooms.entrevoisins.di.DI;
 import com.openclassrooms.entrevoisins.model.Neighbour;
 
@@ -13,6 +15,7 @@ import java.util.List;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Unit test on Neighbour service
@@ -39,5 +42,29 @@ public class NeighbourServiceTest {
         Neighbour neighbourToDelete = service.getNeighbours().get(0);
         service.deleteNeighbour(neighbourToDelete);
         assertFalse(service.getNeighbours().contains(neighbourToDelete));
+    }
+
+    @Test
+    public void getFavoriteNeighboursWithSuccess() {
+        List<Neighbour> favoriteNeighbours = service.getNeighbours();
+        favoriteNeighbours.get(0).setIsFavorite(true);
+        assertFalse(service.getFavoriteNeighbours().isEmpty());
+    }
+
+    @Test
+    public void setNeighbourAsFavoriteWithSuccess() {
+        Neighbour neighbour = service.getNeighbours().get(1);
+        service.isFavorite(neighbour);
+        assertFalse(service.getFavoriteNeighbours().isEmpty());
+    }
+
+    @Test
+    public void removeFavoriteNeighbourWithSuccess() {
+        service.getFavoriteNeighbours().clear();
+        Neighbour neighbour = service.getNeighbours().get(2);
+        service.isFavorite(neighbour);
+        assertFalse(service.getFavoriteNeighbours().isEmpty());
+        service.isFavorite(neighbour);
+        assertFalse(service.getFavoriteNeighbours().contains(neighbour));
     }
 }
